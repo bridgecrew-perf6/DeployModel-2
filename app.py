@@ -99,8 +99,8 @@ def validate_model(seasonality=12, window_size=24):
 
 
 enteries = 60
-products = 5
-stores = 3
+products = 6
+stores = 1
 
 time = np.arange(enteries, dtype="float32")
 dataset = generate_synthetic_Data(time, enteries, products, stores)
@@ -113,20 +113,21 @@ window_size = 12
 
 @app.route('/')
 def predict():
-    products = 5
-    stores = 3
+    products = 6
+    stores = 1
     predictions = predict_sales(dataset).astype(int)
-    result = {}
-    for store in range(stores):
-      store_result = {}
-      store_name = "Store" + '-' + str(store)
-      for product in range(products): 
-          product_name = "Product" + '-' + str(product)
-          store_result[product_name] = predictions[0][store * products + product]
-      result[store_name] = store_result
 
-    print(result)
-    return str(result)
+    # result = {}
+    # for store in range(stores):
+    #   store_result = {}
+    #   store_name = "Store" + '-' + str(store)
+    #   for product in range(products): 
+    #       product_name = "Product" + '-' + str(product)
+    #       store_result[product_name] = predictions[0][store * products + product]
+    #   result[store_name] = store_result
+
+    output = [{"pKey":"Product1", "productName": "Diet Pepsi", "quantity": predictions[0][0]},{"pKey":"Product2", "productName": "Frito Lays", "quantity": predictions[0][1]},{"pKey":"Product3", "productName": "Quaker Oats", "quantity": predictions[0][2]},{"pKey":"Product4", "productName": "Ruffles", "quantity": predictions[0][3]}, {"pKey":"Product5", "productName": "Tropican Orange", "quantity": predictions[0][4]},{"pKey":"Product6", "productName": "Mountain Dew", "quantity": predictions[0][5]}]
+    return str(output)
 
 
 if __name__ == '__main__':
